@@ -1,3 +1,5 @@
+"use client";
+
 import { Montadora } from "../../page";
 
 interface ModeloProps {

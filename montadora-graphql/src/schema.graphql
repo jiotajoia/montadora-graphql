@@ -1,8 +1,31 @@
 type Montadora {
   id: ID!
-  nome: String
+  nome: String!
+  pais: String!
+  ano_fundacao: Int!
+  modelos: [Modelo]
+}
+
+type Modelo {
+  id: ID!
+  nome: String!
+  montadora: Montadora!
+  veiculos: [Veiculo]
+}
+
+type Veiculo {
+  id: ID!
+  placa: String!
+  valor: Int!
+  modelo: Modelo!
 }
 
 type Query {
-    montadoras: [Montadora]
+  montadoras: [Montadora]
+  modelos: [Modelo]
+  veiculos: [Veiculo]
+}
+
+type Mutation {
+  AddMontadora(nome: String!, pais: String!, ano_fundacao: Int!):Montadora
 }

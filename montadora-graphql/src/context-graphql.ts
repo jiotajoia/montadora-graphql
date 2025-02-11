@@ -5,6 +5,6 @@ export interface MyGQLContext{
 
 // Executa a cada request
 export const  initContext = async ({ req }) => {
-  const user = req.user || "rogerio410";
+  const user = req.user || "jiotajoia";
   return { user }; 
 }

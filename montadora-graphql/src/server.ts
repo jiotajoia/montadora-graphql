@@ -38,14 +38,11 @@ const app: Express = express();
 app.use(cors());
 app.use(json());
 
-
 app.use(routes);
-
 
 const typeDefs = loadSchemaSync("src/schema.graphql", {
   loaders: [new GraphQLFileLoader()],
 });
-
 
 async function startApolloServer() {
   const apolloServer = new ApolloServer<MyGQLContext>({

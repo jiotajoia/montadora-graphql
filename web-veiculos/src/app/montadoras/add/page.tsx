@@ -1,4 +1,5 @@
 "use client"
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,32 +10,47 @@ interface MontadoraFormData {
     ano_fundacao: number;
 }
 
+const ADD_MONTADORA = gql`
+  mutation AddMontadora($nome: String!, $pais: String!, $ano_fundacao:Int!) {
+    AddMontadora(nome: $nome, pais: $pais,ano_fundacao:$ano_fundacao){
+      id
+      nome
+      pais
+      ano_fundacao
+    }
+  }
+`;
+
 const AddMontadoraPage: React.FC = () => {
-    
+
     const { register, handleSubmit, formState: { errors, isSubmitSuccessful } } = useForm<MontadoraFormData>();
 
+    const [addMontadora, { loading, error, data}]=useMutation(ADD_MONTADORA);
+    
+    // const { register, handleSubmit, formState: { errors, isSubmitSuccessful } } = useForm<MontadoraFormData>();
+
     const onSubmit = async (data: MontadoraFormData) => {
-        try {
-            const response = await fetch('http://localhost:8000/api/montadoras/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
+       try {
+            const { data: response }  = await addMontadora({ 
+                variables:{
+                    nome: data.nome,
+                    pais: data.pais,
+                   ano_fundacao:parseInt(data.ano_fundacao.toString(), 10),
+                }, 
             });
 
-            if (!response.ok) {
-                throw new Error('Erro ao cadastrar montadora');
+            if (response?.addMontadora){
+             alert('Montadora cadastrada com sucesso!');
+             redirect('/montadoras');
             }
-            alert('Montadora cadastrada com sucesso!');
-        } catch (error) {
-            console.error('Erro:', error);
-            alert('Erro ao cadastrar montadora');
-        }
-    };
+         } catch (error) {
+             console.error('Erro:', error);
+             alert('Erro ao cadastrar montadora');
+         }
+     };
 
     if (isSubmitSuccessful) {
-        redirect('/montadoras');
+         redirect('/montadoras');
     }
 
     return (
@@ -68,7 +84,7 @@ const AddMontadoraPage: React.FC = () => {
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
                     {...register('ano_fundacao', {
                     required: 'Ano de fundação é obrigatório',
-                    min: { value: 1899, message: 'Ano deve ser no mínimo 1899' },
+                    min: { value: 1898, message: 'Ano deve ser no mínimo 1898' },
                     max: { value: 2025, message: 'Ano deve ser no máximo 2025' },
                     })}
                 />
