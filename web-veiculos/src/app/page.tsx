@@ -15,6 +15,7 @@ export default function Home() {
           Adicionar Montadora
         </Link>
       </div>
+
     </div>
   );
 }
