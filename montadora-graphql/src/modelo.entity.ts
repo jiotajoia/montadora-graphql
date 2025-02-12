@@ -9,7 +9,7 @@ export class Modelo {
   id: number;
 
   @Column()
-  nome: string;
+  nome: String;
 
   @ManyToOne(() => Montadora, (montadora) => montadora.modelos)
   montadora: Montadora;

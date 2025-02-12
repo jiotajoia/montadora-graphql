@@ -7,7 +7,7 @@ export class Veiculo {
   id: number;
 
   @Column()
-  placa: string;
+  placa: String;
 
   @Column()
   valor: number;

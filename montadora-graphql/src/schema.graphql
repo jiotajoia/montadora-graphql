@@ -28,4 +28,6 @@ type Query {
 
 type Mutation {
   AddMontadora(nome: String!, pais: String!, ano_fundacao: Int!):Montadora
+  AddModelo(nome: String!, montadoraId: Int!): Modelo
+  AddVeiculo(placa: String!, valor: Int!, modeloId: Int!): Veiculo
 }
